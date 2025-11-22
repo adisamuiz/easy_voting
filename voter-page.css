@@ -1,0 +1,43 @@
+#voting-page{
+    width: 100%;
+    border: 1px solid black; 
+    margin: 10px 10px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
+    background-size: cover;
+}
+#voting-table{
+    /*border: 1px solid black;*/
+    border-collapse: collapse;
+    max-width: 80%;
+    /*justify-content: center;*/
+    margin:auto; 
+    background-color: azure;
+}
+td, th{
+    padding: 8px;
+    text-align: center;
+    font-size: larger;
+    border: 1px solid black;
+    width: 50%;
+    margin: auto;
+
+}
+#heading{
+    display:block;
+    margin: 10px auto;
+    border: none;
+    text-align: center;
+    width: 100%;
+    font-family: "Acme", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: normal;
+}
+button{
+    background-color: rgba(0, 128, 0, 0.176);
+    border:1px solid black;
+    padding: 8px;
+}

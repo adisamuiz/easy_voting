@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="admin-page.css">
+    </head>
+    <body>
+        <div id="create-election">
+            <div id="position">
+                <label for="position-input">Candidate position:</label>
+                <input type="text" placeholder="Enter position" id="position-input">
+            </div>
+            <div id="no-of-candidates">
+                <label for="no-of-candidates-input">No of candidates:</label>
+                <input type="number" placeholder="Enter number" id="no-of-candidates-input">
+            </div>
+            <button id="create-btn">Create</button>
+            <div id="register-candidates">
+                <label for="candidate-name-input">Candidate name:</label>
+                <input type="text" placeholder="Enter name" id="candidate-name-input">
+            </div>
+            <button id="register-btn">Register</button>
+            <button id="reset-btn">Reset</button>
+         </div>
+         <div id="result">
+             <table id="result-table">
+                <thead id="result-table-head">
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Total votes</th>
+                    </tr>
+                </thead>
+                <tbody id="result-table-body">
+
+                </tbody>
+            </table>
+        </div>
+        <p id="list">list</p>
+        <script type="module" src="admin-page.js"></script>
+    </body>
+</html>

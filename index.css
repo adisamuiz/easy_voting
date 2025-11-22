@@ -1,0 +1,55 @@
+body{
+    background-color: #E5F0FF;
+}
+/* .container{
+    background-color: #E5F0FF;*
+} */
+.brand-logo {
+    width: 15%;        /* Adjust this to make it bigger/smaller */
+    height: auto;        /* Keeps the logo from stretching weirdly */
+    margin-bottom: 20px; /* Adds space between logo and text */
+    display: flex;      /* Ensures it sits on its own line */
+    margin-left: auto;   /* Centers the block */
+    margin-right: auto;  /* Centers the block */
+}
+h1{
+    text-align: center;
+    font-family: "Bungee", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+#text-body{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+#voter-btn{
+    background-color: #27ae60; /* Green for "Go/Vote" */
+    color: white;
+    border: 2px solid #27ae60;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+    min-width: 200px;
+}
+#admin-btn{
+    background-color: transparent;
+    color: #2c3e50;
+    border: 2px solid #2c3e50;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+    min-width: 200px;
+}
+#sign-in{
+    display: flex;
+    justify-content: space-around;
+}
