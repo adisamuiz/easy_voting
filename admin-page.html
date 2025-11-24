@@ -4,24 +4,45 @@
         <link rel="stylesheet" href="admin-page.css">
     </head>
     <body>
-        <div id="create-election">
-            <div id="position">
-                <label for="position-input">Candidate position:</label>
-                <input type="text" placeholder="Enter position" id="position-input">
+        <div id="container">
+            <h1>Election Management Dashboard</h1>
+            <p>Welcome to the election creation portal. To set up a new voting event, begin by defining the <strong>Election title</strong> and the <strong>number of allowed candidates</strong> .</p>
+            <div id="create-election">
+                <h2>Create election</h2>
+                <div id="position">
+                    <label for="position-input">Election title:</label>
+                    <br>
+                    <input type="text" placeholder="Enter position" id="position-input">
+                </div>
+                <div id="no-of-candidates">
+                    <label for="no-of-candidates-input">No of candidates:</label>
+                    <br>
+                    <input type="number" placeholder="Enter number" id="no-of-candidates-input">
+                </div>
+                <button id="create-btn">Create</button>
             </div>
-            <div id="no-of-candidates">
-                <label for="no-of-candidates-input">No of candidates:</label>
-                <input type="number" placeholder="Enter number" id="no-of-candidates-input">
-            </div>
-            <button id="create-btn">Create</button>
             <div id="register-candidates">
-                <label for="candidate-name-input">Candidate name:</label>
-                <input type="text" placeholder="Enter name" id="candidate-name-input">
+                <h2>Register candidates</h2>
+                <div id="candidate-name">
+                    <label for="candidate-name-input">Candidate name:</label>
+                    <br>
+                    <input type="text" placeholder="Enter name" id="candidate-name-input">
+                </div>
+                <button id="register-btn">Register</button>
+                <button id="reset-btn">Reset</button>
             </div>
-            <button id="register-btn">Register</button>
-            <button id="reset-btn">Reset</button>
-         </div>
-         <div id="result">
+            <div id="register-voters">
+                <h2>Register voters</h2>
+                <div id="voter-name">
+                    <label for="voter-name-input">Candidate name:</label>
+                    <br>
+                    <input type="text" placeholder="Enter name" id="voter-name-input">
+                </div>
+                <button id="register-btn">Register</button>
+            </div>
+        </div>
+        <div id="result">
+            <h2 id="result-h2">View result</h2>
              <table id="result-table">
                 <thead id="result-table-head">
                     <tr>
@@ -34,7 +55,6 @@
                 </tbody>
             </table>
         </div>
-        <p id="list">list</p>
         <script type="module" src="admin-page.js"></script>
     </body>
 </html>

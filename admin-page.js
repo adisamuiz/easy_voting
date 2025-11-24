@@ -12,6 +12,7 @@ const noOfCandidatesInput = document.getElementById("no-of-candidates-input")
 const candidateNameInput = document.getElementById("candidate-name-input")
 const resultTable = document.getElementById("result-table-body")
 const resetBtn = document.getElementById("reset-btn")
+const voterNameInput = document.getElementById("voter-name-input")
 
 
 let candidateName = ""

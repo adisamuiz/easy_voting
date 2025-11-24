@@ -1,28 +1,86 @@
 body{
+    background-color: #f9fafb; /* bg-gray-50 */
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #1f2937; /* text-gray-800 */
+    margin: 0;
+    min-height: 100vh;
     display: flex;
-    background-color:whitesmoke;
 }
-#create-election{
-    width: 50%;
+#container{
+    /* width: 80%;
     margin: 10px 10px;
     margin-left: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 0px; 
     border: 1px solid black;
     border-right: none;
     background-color: lightgray;
     padding: 10px;
     background-color: #dbd56e;
+    display: flex;
+    justify-content: center; 
+    margin-left: auto;
+    margin-right: auto;*/
+    width: 80%; /* max-w-7xl */
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: #3385FF;
+} 
+/* #position-input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box; }
+#no-of-candidates-input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box; }
+#candidate-name-input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box; } */
+input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
 }
+label{
+    /* display: block; */
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
 #result{
     width: 50%;
-    margin: 10px 10px;
+    /* margin: 10px 10px;
     margin-right: 0px;
-    margin-bottom: 0px;
-    border: 1px solid black;
+    margin-bottom: 0px; */
+    /* border: 1px solid black;
     border-left: none;
     background-color: lightgray;
     padding: 10px;
-    background-color: #dbd56e;
+    background-color: #dbd56e; */
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: #3385FF;
+}
+#result-h2{
+    text-align: center;
 }
 table{
     /*border: 1px solid black;*/
@@ -42,8 +100,15 @@ td, th{
 
 }
 button{
-    background-color: rgba(0, 128, 0, 0.176);
+    /* background-color: rgba(0, 128, 0, 0.176);
     border:1px solid black;
-    padding: 8px;
+    padding: 8px; */
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+    margin-top: 3px;
 }
 

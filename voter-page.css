@@ -1,4 +1,8 @@
-#voting-page{
+body{
+    background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
+    background-size: cover;
+}
+/* #voting-page{
     width: 100%;
     border: 1px solid black; 
     margin: 10px 10px;
@@ -7,7 +11,7 @@
     margin-bottom: 0px;
     background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
     background-size: cover;
-}
+} */
 #voting-table{
     /*border: 1px solid black;*/
     border-collapse: collapse;
