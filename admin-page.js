@@ -30,6 +30,8 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const candidatesReferenceInDB = ref(database, "candidates")
 const positionReferenceInDB = ref(database, "position")
+const votesReferenceInDB = ref(database, "votes")
+
 
 onValue(candidatesReferenceInDB, function(snapshot){
     resultTable.innerHTML = ""
@@ -65,11 +67,13 @@ registerBtn.addEventListener("click", function(){
         noRegistered++
         candidateNameInput.value = ""
         push(candidatesReferenceInDB, candidateName)
+        push(votesReferenceInDB, 0)
     }
 })
 
 resetBtn.addEventListener("click", function(){
     deleteDBContent()
+    noOfCandidates = 0
 })
 
 function deleteDBContent(){
