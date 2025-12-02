@@ -1,26 +1,24 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js"
-import { getDatabase, 
-         ref,
-         push,
-         onValue,
-         remove} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js"
 import { getAuth,
          signOut,
          onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
+import { getFirestore, 
+         collection, 
+         addDoc, 
+         doc, 
+         setDoc,
+         onSnapshot} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
 
 const firebaseConfig = {
     databaseURL: "https://easy-voting-fd3ad-default-rtdb.firebaseio.com/",
     apiKey: "AIzaSyDrA_yYmQJNEgyWO0yJLoRVxBydmSuiP_4",
     authDomain: "easy-voting-fd3ad.firebaseapp.com",
     projectId: "easy-voting-fd3ad",
-    storageBucket: "easy-voting-fd3ad.firebasestorage.app",
+    storageBucket: "easy-voting-fd3ad.firebasestorage.app"
 }
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
-const database = getDatabase(app)
-const candidatesReferenceInDB = ref(database, "candidates")
-const positionReferenceInDB = ref(database, "position")
-const votesReferenceInDB = ref(database, "votes")
+const db = getFirestore(app) 
 
 const signOutBtn = document.getElementById("sign-out-btn")
 const registerBtn = document.getElementById("register-btn")
@@ -32,7 +30,6 @@ const resultTable = document.getElementById("result-table-body")
 const resetBtn = document.getElementById("reset-btn")
 const voterNameInput = document.getElementById("voter-name-input")
 
-
 let candidateName = ""
 let noOfCandidates = 0
 let position = ""
@@ -40,11 +37,13 @@ let trr = ""
 let tdd1 = ""
 let tdd2 = ""
 let noRegistered = 0
+let candidateIdInDB = 1
 
 signOutBtn.addEventListener("click", authSignOut)
 
 onAuthStateChanged(auth, (user) => {
   if (user) { 
+    renderListOfCandidates()
   } 
   else {
     location.href = "admin.html" 
@@ -53,30 +52,12 @@ onAuthStateChanged(auth, (user) => {
 
 function authSignOut(){
     signOut(auth).then(() => {
-        //location.href = "admin.html" 
-    }).catch((error) => {
+
+    })
+    .catch((error) => {
         console.log(error.message)
     })
 }
-
-onValue(candidatesReferenceInDB, function(snapshot){
-    resultTable.innerHTML = ""
-    const snapshotExists = snapshot.exists()
-    if (snapshotExists){
-        const snapshott = snapshot.val()
-        const snapshotValue = Object.keys(snapshott)
-        const snapshotLength = snapshotValue.length - 1
-        let candidateName = []
-        for(let i = 0; i <= snapshotLength; i++){
-            const keyy = snapshotValue[i]
-            candidateName.push(keyy)
-            trr = resultTable.insertRow()
-            tdd1 = trr.insertCell(0)
-            tdd1.innerHTML = `${snapshott[candidateName[i]]}`
-            tdd2 = trr.insertCell(1)
-        }
-    }
-})
 
 createBtn.addEventListener("click", function(){
     noOfCandidates = noOfCandidatesInput.value
@@ -84,7 +65,6 @@ createBtn.addEventListener("click", function(){
     if(noOfCandidates && position){
         noOfCandidatesInput.value = ""
         positionInput.value = ""
-        push(positionReferenceInDB, position)
     }
 }) 
 registerBtn.addEventListener("click", function(){
@@ -92,16 +72,48 @@ registerBtn.addEventListener("click", function(){
     if(candidateName && noRegistered < noOfCandidates){
         noRegistered++
         candidateNameInput.value = ""
-        push(candidatesReferenceInDB, candidateName)
-        push(votesReferenceInDB, 0)
+        addNewCandidateToDB(candidateName)
     }
 })
 
 resetBtn.addEventListener("click", function(){
-    deleteDBContent()
+    clearAll(resultTable)
     noOfCandidates = 0
+    candidateIdInDB = 1
+    noRegistered = 0
 })
 
+function clearAll(element){
+    element.innerHTML = ""
+}
 function deleteDBContent(){
-    remove(candidatesReferenceInDB)
+
+}
+
+async function addNewCandidateToDB(candidateName){
+    try {
+        const docRef = await setDoc(doc(db, "candidates", `Candidate${candidateIdInDB}`), {
+            name: candidateName,
+            id: "",
+            votes: 0
+        })
+        candidateIdInDB++
+        console.log("Document written with ID: ", docRef.id)
+        console.log(candidateIdInDB)
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+function renderListOfCandidates(){
+    onSnapshot(collection(db, "candidates"), (querySnapshot) => {
+        clearAll(resultTable)
+        
+        querySnapshot.forEach((doc) => {
+            trr = resultTable.insertRow()
+            tdd1 = trr.insertCell(0)
+            tdd1.innerHTML = `${doc.data().name}`
+            tdd2 = trr.insertCell(1)
+            tdd2.innerHTML = `${doc.data().votes}`         
+        })
+    })
 }

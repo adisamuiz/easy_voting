@@ -20,8 +20,6 @@ const adminCreateAccountBtn = document.getElementById("admin-create-account-btn"
 const adminLoginBtn = document.getElementById("admin-login-btn")
 const adminIdInput = document.getElementById("admin-id-input")
 const adminPassInput = document.getElementById("admin-pass-input")
-// let email = ""
-// let password = ""
 
 adminCreateAccountBtn.addEventListener("click", authCreateAccount)
 adminLoginBtn.addEventListener("click", authSignIn)
@@ -41,7 +39,6 @@ function authCreateAccount(){
     .then((userCredential) => {
         adminIdInput.value = ""
         adminPassInput.value = ""
-        //location.href = "admin-page.html" 
     })
     .catch((error) => {
         console.log(error.message)
@@ -55,7 +52,6 @@ function authSignIn(){
     .then((userCredential) => {
         adminIdInput.value = ""
         adminPassInput.value = ""
-        //location.href = "admin-page.html" 
     })
     .catch((error) => {
         console.log(error.message)
