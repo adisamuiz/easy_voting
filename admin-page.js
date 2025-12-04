@@ -52,7 +52,6 @@ onAuthStateChanged(auth, (user) => {
 
 function authSignOut(){
     signOut(auth).then(() => {
-
     })
     .catch((error) => {
         console.log(error.message)
@@ -99,11 +98,11 @@ async function addNewCandidateToDB(candidateName){
         })
         candidateIdInDB++
         console.log("Document written with ID: ", docRef.id)
-        console.log(candidateIdInDB)
     } catch (error) {
         console.error(error.message)
     }
 }
+
 function renderListOfCandidates(){
     onSnapshot(collection(db, "candidates"), (querySnapshot) => {
         clearAll(resultTable)
@@ -117,3 +116,15 @@ function renderListOfCandidates(){
         })
     })
 }
+async function addNewAdminToDB(){
+    try {
+        const user = auth.currentUser
+        const docRef = await addDoc(collection(db, "admin"), {
+            adminId: user.uid
+        })
+        console.log("Document written with ID: ", docRef.id)
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+

@@ -4,6 +4,12 @@ import { getAuth,
         createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
         onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
+import { getFirestore, 
+         collection, 
+         addDoc, 
+         doc, 
+         setDoc,
+         onSnapshot} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
 
 const firebaseConfig = {
     apiKey: "AIzaSyDrA_yYmQJNEgyWO0yJLoRVxBydmSuiP_4",
@@ -15,6 +21,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
+const db = getFirestore(app) 
 
 const adminCreateAccountBtn = document.getElementById("admin-create-account-btn")
 const adminLoginBtn = document.getElementById("admin-login-btn")
@@ -26,19 +33,25 @@ adminLoginBtn.addEventListener("click", authSignIn)
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    location.href = "admin-page.html" 
+    console.log("User detected: ", user.uid)
   } 
   else {
+
   }
 })
 function authCreateAccount(){
     const email = adminIdInput.value
     const password = adminPassInput.value
-    
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+        const uid = userCredential.user.uid
+        return addNewAdminToDB(uid) 
+    })
+    .then(() => {
         adminIdInput.value = ""
         adminPassInput.value = ""
+        console.log("Admin added to DB successfully")
+        location.href = "admin-page.html"
     })
     .catch((error) => {
         console.log(error.message)
@@ -47,14 +60,21 @@ function authCreateAccount(){
 function authSignIn(){
     const email = adminIdInput.value
     const password = adminPassInput.value
-
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         adminIdInput.value = ""
         adminPassInput.value = ""
+        location.href = "admin-page.html" 
     })
     .catch((error) => {
         console.log(error.message)
     });
 }
-
+async function addNewAdminToDB(uid){
+    const docRef = await addDoc(collection(db, "admin"), {
+        adminId: uid
+    });
+    
+    console.log("Document written with ID: ", docRef.id)
+    return docRef
+}
