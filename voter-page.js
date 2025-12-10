@@ -4,7 +4,11 @@ import { getFirestore,
          addDoc, 
          doc, 
          setDoc,
-         onSnapshot} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
+         onSnapshot,
+         runTransaction, 
+         increment,
+         get, 
+         getDoc} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
 import { getAuth,
          signOut,
          onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
@@ -45,7 +49,6 @@ onAuthStateChanged(auth, (user) => {
 
 function authSignOut(){
     signOut(auth).then(() => {
-
     })
     .catch((error) => {
         console.log(error.message)
@@ -81,7 +84,23 @@ votingTable.addEventListener("click", function(event){
         candidateVoted.textContent = `you voted ${candidateName} vote count ${voteCount}`
     }
 })
-
+async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, userId) {
+    const candidateRef = doc(db, "candidates", candidateId)
+    const voterRef = doc(db, "voted", userId)
+    try {
+        await runTransaction(db, async (transaction) => {
+            const userVoteDoc = await transaction.getDoc(voterRef)
+            if (userVoteDoc.exists()) {
+                throw "User has already voted!"
+            }
+            transaction.setDoc(userVoteRef, { votedAt: new Date() })
+            transaction.updateDoc(candidateRef, { votes: increment(1) })
+        })
+    console.log("Vote successfully cast!")
+    } catch (error) {
+    console.error("Vote failed: ", error);
+  }
+}
 
 
 

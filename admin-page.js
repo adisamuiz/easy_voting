@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js"
 import { getAuth,
          signOut,
-         onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
+         onAuthStateChanged,
+         createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
 import { getFirestore, 
          collection, 
          addDoc, 
@@ -22,13 +23,15 @@ const db = getFirestore(app)
 
 const signOutBtn = document.getElementById("sign-out-btn")
 const registerBtn = document.getElementById("register-btn")
+const registerVoterBtn = document.getElementById("register-voter-btn")
 const createBtn = document.getElementById("create-btn")
 const positionInput = document.getElementById("position-input")
 const noOfCandidatesInput = document.getElementById("no-of-candidates-input")
 const candidateNameInput = document.getElementById("candidate-name-input")
 const resultTable = document.getElementById("result-table-body")
 const resetBtn = document.getElementById("reset-btn")
-const voterNameInput = document.getElementById("voter-name-input")
+const voterEmailInput = document.getElementById("voter-name-input")
+const voterPassInput = document.getElementById("voter-pass-input")
 
 let candidateName = ""
 let noOfCandidates = 0
@@ -57,7 +60,25 @@ function authSignOut(){
         console.log(error.message)
     })
 }
-
+function authCreateVoterAccount(){
+    const email = voterEmailInput.value
+    const password = voterPassInput.value
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user
+        const uid = user.uid
+        return addNewVoterToDB(uid) 
+    })
+    .then(() => {
+        voterEmailInput.value = ""
+        voterPassInput.value = ""
+        console.log("Voter added to DB successfully")
+    })
+    .catch((error) => {
+        console.log(error.message)
+    })
+}
+registerVoterBtn.addEventListener("click", authCreateVoterAccount)
 createBtn.addEventListener("click", function(){
     noOfCandidates = noOfCandidatesInput.value
     position = positionInput.value
@@ -74,21 +95,15 @@ registerBtn.addEventListener("click", function(){
         addNewCandidateToDB(candidateName)
     }
 })
-
 resetBtn.addEventListener("click", function(){
     clearAll(resultTable)
     noOfCandidates = 0
     candidateIdInDB = 1
     noRegistered = 0
 })
-
 function clearAll(element){
     element.innerHTML = ""
 }
-function deleteDBContent(){
-
-}
-
 async function addNewCandidateToDB(candidateName){
     try {
         const docRef = await setDoc(doc(db, "candidates", `Candidate${candidateIdInDB}`), {
@@ -102,7 +117,6 @@ async function addNewCandidateToDB(candidateName){
         console.error(error.message)
     }
 }
-
 function renderListOfCandidates(){
     onSnapshot(collection(db, "candidates"), (querySnapshot) => {
         clearAll(resultTable)
@@ -116,15 +130,13 @@ function renderListOfCandidates(){
         })
     })
 }
-async function addNewAdminToDB(){
-    try {
-        const user = auth.currentUser
-        const docRef = await addDoc(collection(db, "admin"), {
-            adminId: user.uid
-        })
-        console.log("Document written with ID: ", docRef.id)
-    } catch (error) {
-        console.error(error.message)
-    }
+async function addNewVoterToDB(uid){
+    const docRef = await setDoc(doc(db, "voters", uid), {
+        voterId: uid,
+        role: "voter"
+    })
+    console.log("Document written with ID: ", docRef.id)
+    return docRef
 }
+
 
