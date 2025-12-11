@@ -43,41 +43,6 @@ let noRegistered = 0
 let candidateIdInDB = 1
 
 signOutBtn.addEventListener("click", authSignOut)
-
-onAuthStateChanged(auth, (user) => {
-  if (user) { 
-    renderListOfCandidates()
-  } 
-  else {
-    location.href = "admin.html" 
-  }
-})
-
-function authSignOut(){
-    signOut(auth).then(() => {
-    })
-    .catch((error) => {
-        console.log(error.message)
-    })
-}
-function authCreateVoterAccount(){
-    const email = voterEmailInput.value
-    const password = voterPassInput.value
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user
-        const uid = user.uid
-        return addNewVoterToDB(uid) 
-    })
-    .then(() => {
-        voterEmailInput.value = ""
-        voterPassInput.value = ""
-        console.log("Voter added to DB successfully")
-    })
-    .catch((error) => {
-        console.log(error.message)
-    })
-}
 registerVoterBtn.addEventListener("click", authCreateVoterAccount)
 createBtn.addEventListener("click", function(){
     noOfCandidates = noOfCandidatesInput.value
@@ -101,18 +66,46 @@ resetBtn.addEventListener("click", function(){
     candidateIdInDB = 1
     noRegistered = 0
 })
-function clearAll(element){
-    element.innerHTML = ""
+
+onAuthStateChanged(auth, (user) => {
+  if (user) { 
+    renderListOfCandidates()
+  } 
+  else {
+    location.href = "admin.html" 
+  }
+})
+function authSignOut(){
+    signOut(auth).then(() => {
+    })
+    .catch((error) => {
+        console.log(error.message)
+    })
+}
+async function authCreateVoterAccount(){
+    const email = voterEmailInput.value
+    const password = voterPassInput.value
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const uid = userCredential.user.uid
+        await addNewVoterToDB(uid)
+        voterEmailInput.value = ""
+        voterPassInput.value = ""
+        console.log("Voter added to DB successfully")
+    } 
+    catch (error) {
+        console.error("Something went wrong:", error)
+    }
 }
 async function addNewCandidateToDB(candidateName){
     try {
-        const docRef = await setDoc(doc(db, "candidates", `Candidate${candidateIdInDB}`), {
+        await setDoc(doc(db, "candidates", `Candidate${candidateIdInDB}`), {
             name: candidateName,
             id: "",
             votes: 0
         })
         candidateIdInDB++
-        console.log("Document written with ID: ", docRef.id)
+        console.log("Document written to DB")
     } catch (error) {
         console.error(error.message)
     }
@@ -120,7 +113,6 @@ async function addNewCandidateToDB(candidateName){
 function renderListOfCandidates(){
     onSnapshot(collection(db, "candidates"), (querySnapshot) => {
         clearAll(resultTable)
-        
         querySnapshot.forEach((doc) => {
             trr = resultTable.insertRow()
             tdd1 = trr.insertCell(0)
@@ -131,12 +123,13 @@ function renderListOfCandidates(){
     })
 }
 async function addNewVoterToDB(uid){
-    const docRef = await setDoc(doc(db, "voters", uid), {
+    await setDoc(doc(db, "voters", uid), {
         voterId: uid,
         role: "voter"
     })
-    console.log("Document written with ID: ", docRef.id)
-    return docRef
+    console.log("Document written with ID: ", uid)
 }
-
+function clearAll(element){
+    element.innerHTML = ""
+}
 

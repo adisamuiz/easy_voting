@@ -6,9 +6,9 @@ import { getFirestore,
          setDoc,
          onSnapshot,
          runTransaction, 
-         increment,
-         get, 
-         getDoc} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
+         increment, 
+         getDoc,
+         updateDoc} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
 import { getAuth,
          signOut,
          onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
@@ -32,23 +32,23 @@ const signOutBtn = document.getElementById("sign-out-btn")
 let tr = ""
 let td1 = ""
 let td2 = ""
-let indexOfRow = ""
-let voteCountIncrement = ""
-let voteCount = [0]
+let voterId = ""
 
 signOutBtn.addEventListener("click", authSignOut)
+votingTable.addEventListener("click", listenToVote)
 
 onAuthStateChanged(auth, (user) => {
-  if (user) { 
+    if (user) {
+    voterId = user.uid
     renderListOfCandidates()
-  } 
-  else {
+    } 
+    else {
     location.href = "voter.html" 
-  }
+    }
 })
-
 function authSignOut(){
     signOut(auth).then(() => {
+        
     })
     .catch((error) => {
         console.log(error.message)
@@ -57,11 +57,11 @@ function authSignOut(){
 function renderListOfCandidates(){
     onSnapshot(collection(db, "candidates"), (querySnapshot) => {
         clearAll(votingTable)
-        
         querySnapshot.forEach((doc) => {
             const voteBtnEl = document.createElement("button")
             voteBtnEl.textContent = "VOTE"
             tr = votingTable.insertRow()
+            tr.setAttribute("data-candidate-id", doc.id)
             td1 = tr.insertCell(0)
             td1.innerHTML = `${doc.data().name}`
             td2 = tr.insertCell(1)
@@ -72,33 +72,29 @@ function renderListOfCandidates(){
 function clearAll(element){
     element.innerHTML = ""
 }
-
-votingTable.addEventListener("click", function(event){
+function listenToVote(event){
     if (event.target.tagName === "BUTTON"){
-        let buttonClicked = event.target
-        let row = buttonClicked.closest('tr')
-        let candidateName = row.cells[0].textContent
-        indexOfRow = row.rowIndex
-        voteCountIncrement = voteCount[indexOfRow]++
-        push(resultReferenceInDB, voteCount)
-        candidateVoted.textContent = `you voted ${candidateName} vote count ${voteCount}`
+        const buttonClicked = event.target
+        const row = buttonClicked.closest('tr')
+        const candidateId = row.dataset.candidateId
+        checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, voterId)
     }
-})
-async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, userId) {
-    const candidateRef = doc(db, "candidates", candidateId)
-    const voterRef = doc(db, "voted", userId)
+}
+async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, voterId) {
+    const candidateDocRef = doc(db, "candidates", candidateId)
+    const voterDocRef = doc(db, "voted", voterId)
     try {
         await runTransaction(db, async (transaction) => {
-            const userVoteDoc = await transaction.getDoc(voterRef)
+            const userVoteDoc = await transaction.get(voterDocRef)
             if (userVoteDoc.exists()) {
                 throw "User has already voted!"
             }
-            transaction.setDoc(userVoteRef, { votedAt: new Date() })
-            transaction.updateDoc(candidateRef, { votes: increment(1) })
+            transaction.set(voterDocRef, { votedAt: new Date() })
+            transaction.update(candidateDocRef, { votes: increment(1) })
         })
     console.log("Vote successfully cast!")
     } catch (error) {
-    console.error("Vote failed: ", error);
+    console.error("Vote failed: ", error)
   }
 }
 
