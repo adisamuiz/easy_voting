@@ -3,6 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebas
 import { getAuth,
         createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
+        signOut,
         onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
 import { getFirestore, 
          collection, 
@@ -24,86 +25,71 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app) 
 
-const adminCreateAccountBtn = document.getElementById("admin-create-account-btn")
+//const adminCreateAccountBtn = document.getElementById("admin-create-account-btn")
 const adminLoginBtn = document.getElementById("admin-login-btn")
 const adminIdInput = document.getElementById("admin-id-input")
 const adminPassInput = document.getElementById("admin-pass-input")
 
-let adminUid = ""
-
-adminCreateAccountBtn.addEventListener("click", authCreateAccount)
+//adminCreateAccountBtn.addEventListener("click", authCreateAccount)
 adminLoginBtn.addEventListener("click", authSignIn)
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("User detected: ", user.uid)
+    const docRef = doc(db, "admin", user.uid)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists() && docSnap.data().role === "admin") {
+        location.href = "admin-page.html"
+    }
   } 
   else {
-
   }
 })
-function authCreateAccount(){
+// async function authCreateAccount(){
+//     const email = adminIdInput.value
+//     const password = adminPassInput.value
+//     try{
+//         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+//         const uid = userCredential.user.uid
+//         await addNewAdminToDB(uid) 
+//         adminIdInput.value = ""
+//         adminPassInput.value = ""
+//         console.log("Admin added to DB successfully")
+//         location.href = "admin-page.html"
+//     }
+//     catch (error) {
+//         console.error("Something went wrong:", error)
+//     }
+// }
+async function authSignIn(){
     const email = adminIdInput.value
     const password = adminPassInput.value
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user
-        const uid = user.uid
-        return addNewAdminToDB(uid) 
-    })
-    .then(() => {
+    try{
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const uid = userCredential.user.uid    
+        await getAdminInformation(uid)
         adminIdInput.value = ""
         adminPassInput.value = ""
-        console.log("Admin added to DB successfully")
-        location.href = "admin-page.html"
-    })
-    .catch((error) => {
-        console.log(error.message)
-    })
+    }
+    catch (error) {
+        console.error("Something went wrong:", error)
+    }
 }
-function authSignIn(){
-    const email = adminIdInput.value
-    const password = adminPassInput.value
-    let uid = "" 
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        uid = userCredential.user.uid    
-        return getAdminInformation(uid)
-         
-    })
-    .then(() => {
-        if (uid == adminUid){
-            console.log("you're an admin")
-            console.log("uid:", uid)
-            location.href = "admin-page.html"
-        }
-        // else{
-        //     console.log("you're not an admin")
-        // }
-        adminIdInput.value = ""
-        adminPassInput.value = ""
-    })
-    .catch((error) => {
-        console.log(error.message)
-    });
-}
-async function addNewAdminToDB(uid){
-    const docRef = await setDoc(doc(db, "admin", uid), {
-        adminId: uid,
-        role: "admin"
-    })
-    console.log("Document written with ID: ", docRef.id)
-    return docRef
-}
+// async function addNewAdminToDB(uid){
+//     await setDoc(doc(db, "admin", uid), {
+//         adminId: uid,
+//         role: "admin"
+//     })
+//     console.log("Document written with ID: ", uid)
+// }
 async function getAdminInformation(uid) {
     const docRef = doc(db, "admin", uid)
     const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) {
-        adminUid = docSnap.data().adminId
-        console.log("User data:", adminUid)
+    if (docSnap.exists() && docSnap.data().role === "admin") {
+        console.log("you're an admin")
+        location.href = "admin-page.html"
     } else {
-        console.log("No such document!");
+        console.log("You're not an admin")
+        signOut(auth)
     }
-    return adminUid
 }
 

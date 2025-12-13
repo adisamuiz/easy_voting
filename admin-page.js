@@ -8,7 +8,11 @@ import { getFirestore,
          addDoc, 
          doc, 
          setDoc,
-         onSnapshot} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
+         onSnapshot,
+         deleteDoc,
+         getDocs,
+         getDoc,
+         updateDoc} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js" 
 
 const firebaseConfig = {
     databaseURL: "https://easy-voting-fd3ad-default-rtdb.firebaseio.com/",
@@ -44,6 +48,25 @@ let candidateIdInDB = 1
 
 signOutBtn.addEventListener("click", authSignOut)
 registerVoterBtn.addEventListener("click", authCreateVoterAccount)
+resetBtn.addEventListener("click", resetElection)
+
+onAuthStateChanged(auth, async (user) => {
+    if (user) { 
+        const docRef = doc(db, "admin", user.uid)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists() && docSnap.data().role === "admin") {
+                console.log("you're an admin")
+                renderListOfCandidates()
+        }
+        else{
+            console.log("you're not an admin")
+            location.href = "admin.html"
+        }
+    } 
+    else {
+        location.href = "admin.html" 
+    }
+})
 createBtn.addEventListener("click", function(){
     noOfCandidates = noOfCandidatesInput.value
     position = positionInput.value
@@ -59,21 +82,6 @@ registerBtn.addEventListener("click", function(){
         candidateNameInput.value = ""
         addNewCandidateToDB(candidateName)
     }
-})
-resetBtn.addEventListener("click", function(){
-    clearAll(resultTable)
-    noOfCandidates = 0
-    candidateIdInDB = 1
-    noRegistered = 0
-})
-
-onAuthStateChanged(auth, (user) => {
-  if (user) { 
-    renderListOfCandidates()
-  } 
-  else {
-    location.href = "admin.html" 
-  }
 })
 function authSignOut(){
     signOut(auth).then(() => {
@@ -131,5 +139,20 @@ async function addNewVoterToDB(uid){
 }
 function clearAll(element){
     element.innerHTML = ""
+}
+async function resetElection(){
+    clearAll(resultTable)
+    noOfCandidates = 0
+    candidateIdInDB = 1
+    noRegistered = 0
+    const candidatesSnapshot = await getDocs(collection(db, "candidates"))
+    for (const candidateDoc of candidatesSnapshot.docs) {
+        await deleteDoc(candidateDoc.ref)
+        const votesSnapshot = await getDocs(collection(db, "voted"))
+        for (const voteDoc of votesSnapshot.docs) {
+            await deleteDoc(voteDoc.ref)
+        }
+    }
+    console.log("Election reset successfully")
 }
 

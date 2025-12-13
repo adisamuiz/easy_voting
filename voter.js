@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js"
 import { getAuth,
          signInWithEmailAndPassword,
+         signOut,
          onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
 import { getFirestore, 
          collection, 
@@ -28,43 +29,42 @@ const voterPassInput = document.getElementById("voter-pass-input")
 
 voterLoginBtn.addEventListener("click", authSignIn)
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
-    location.href = "voter-page.html"
+    const voterRef = doc(db, "voters", user.uid)
+    const voterSnap = await getDoc(voterRef)
+    if (voterSnap.exists() && voterSnap.data().role == "voter") {
+      location.href = "voter-page.html"
+    } 
+    else {
+      console.log("User is logged in, but is NOT a verified voter.")
+      signOut(auth)
+    }
   } 
-  else {
-  }
 })
 async function authSignIn(){
   const email = voterIdInput.value
   const password = voterPassInput.value
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    const uid = userCredential.user.uid
-    const voterid = await getVoterInformation(uid)
-    if (uid == voterid){
-      console.log("you're a voter")
-      console.log("uid:", uid)
-      location.href = "voter-page.html"
-    }else{
-      console.log("you're not a voter")
-    }
+    // const uid = userCredential.user.uid
+    // await getVoterInformation(uid)
     voterIdInput.value = ""
     voterPassInput.value = ""
   } 
   catch (error) {
-        console.error("Something went wrong:", error)
+    console.error("Something went wrong:", error)
   }
 }
-async function getVoterInformation(uid) {
-  let voterUid = ""
-  const docRef = doc(db, "voters", uid)
-  const docSnap = await getDoc(docRef)
-  if (docSnap.exists()) {
-      voterUid = docSnap.data().voterId
-      console.log("User data:", voterUid)
-  } else {
-      console.log("No such document!");
-  }
-  return voterUid
-}
+// async function getVoterInformation(uid) {
+//   const docRef = doc(db, "voters", uid)
+//   const docSnap = await getDoc(docRef)
+//   if (docSnap.exists() && docSnap.data().role === "voter") {
+//     console.log("you're a voter")
+//     console.log("uid:", uid)
+//     location.href = "voter-page.html"
+//   }
+//   else{
+//     console.log("you're not a voter")
+//   }
+// }

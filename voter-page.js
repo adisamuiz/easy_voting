@@ -32,15 +32,22 @@ const signOutBtn = document.getElementById("sign-out-btn")
 let tr = ""
 let td1 = ""
 let td2 = ""
-let voterId = ""
 
 signOutBtn.addEventListener("click", authSignOut)
 votingTable.addEventListener("click", listenToVote)
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
-    voterId = user.uid
-    renderListOfCandidates()
+        const docRef = doc(db, "voters", user.uid)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists() && docSnap.data().role === "voter") {
+            console.log("you're a voter")
+            renderListOfCandidates()
+        }
+        else{
+            console.log("you're not a voter")
+            location.href = "voter.html"
+        }
     } 
     else {
     location.href = "voter.html" 
@@ -48,7 +55,7 @@ onAuthStateChanged(auth, (user) => {
 })
 function authSignOut(){
     signOut(auth).then(() => {
-        
+        location.href = "voter.html"
     })
     .catch((error) => {
         console.log(error.message)
@@ -72,12 +79,13 @@ function renderListOfCandidates(){
 function clearAll(element){
     element.innerHTML = ""
 }
-function listenToVote(event){
+async function listenToVote(event){
     if (event.target.tagName === "BUTTON"){
         const buttonClicked = event.target
         const row = buttonClicked.closest('tr')
         const candidateId = row.dataset.candidateId
-        checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, voterId)
+        const voterId = auth.currentUser.uid
+        await checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, voterId)
     }
 }
 async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, voterId) {
@@ -89,7 +97,10 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
             if (userVoteDoc.exists()) {
                 throw "User has already voted!"
             }
-            transaction.set(voterDocRef, { votedAt: new Date() })
+            transaction.set(voterDocRef, { 
+                votedAt: new Date(),
+                hasVoted: true
+            })
             transaction.update(candidateDocRef, { votes: increment(1) })
         })
     console.log("Vote successfully cast!")
@@ -97,10 +108,3 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
     console.error("Vote failed: ", error)
   }
 }
-
-
-
-
-    
- 
-
