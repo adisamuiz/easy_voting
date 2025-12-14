@@ -23,7 +23,10 @@ const firebaseConfig = {
 }
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
-const db = getFirestore(app) 
+const db = getFirestore(app)
+
+const secondaryApp = initializeApp(firebaseConfig, "Secondary")
+const secondaryAuth = getAuth(secondaryApp)
 
 const signOutBtn = document.getElementById("sign-out-btn")
 const registerBtn = document.getElementById("register-btn")
@@ -94,9 +97,10 @@ async function authCreateVoterAccount(){
     const email = voterEmailInput.value
     const password = voterPassInput.value
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        const uid = userCredential.user.uid
-        await addNewVoterToDB(uid)
+        const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password)
+        const voterUid = userCredential.user.uid
+        await addNewVoterToDB(voterUid)
+        await signOut(secondaryAuth)
         voterEmailInput.value = ""
         voterPassInput.value = ""
         console.log("Voter added to DB successfully")
