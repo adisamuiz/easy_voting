@@ -146,12 +146,12 @@ async function resetElection(){
     candidateIdInDB = 1
     noRegistered = 0
     const candidatesSnapshot = await getDocs(collection(db, "candidates"))
+    const votesSnapshot = await getDocs(collection(db, "voted"))
     for (const candidateDoc of candidatesSnapshot.docs) {
         await deleteDoc(candidateDoc.ref)
-        const votesSnapshot = await getDocs(collection(db, "voted"))
-        for (const voteDoc of votesSnapshot.docs) {
-            await deleteDoc(voteDoc.ref)
-        }
+    }
+    for (const voteDoc of votesSnapshot.docs) {
+        await deleteDoc(voteDoc.ref)
     }
     console.log("Election reset successfully")
 }
