@@ -139,7 +139,6 @@ async function addNewVoterToDB(uid){
         voterId: uid,
         role: "voter"
     })
-    console.log("Document written with ID: ", uid)
 }
 function clearAll(element){
     element.innerHTML = ""

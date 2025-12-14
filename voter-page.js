@@ -66,6 +66,7 @@ function renderListOfCandidates(){
         clearAll(votingTable)
         querySnapshot.forEach((doc) => {
             const voteBtnEl = document.createElement("button")
+            voteBtnEl.setAttribute("class", "vote-btn")
             voteBtnEl.textContent = "VOTE"
             tr = votingTable.insertRow()
             tr.setAttribute("data-candidate-id", doc.id)

@@ -26,8 +26,12 @@ const db = getFirestore(app)
 const voterLoginBtn = document.getElementById("voter-login-btn")
 const voterIdInput = document.getElementById("voter-id-input")
 const voterPassInput = document.getElementById("voter-pass-input")
+const voterLoginForm = document.getElementById("voter-login-form")
 
 voterLoginBtn.addEventListener("click", authSignIn)
+voterLoginForm.addEventListener("submit", async function(event) {
+    event.preventDefault()
+})
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {

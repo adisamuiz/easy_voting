@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="voter.css">
     </head>
     <body>
-        <div id="voter-login">
-            <div id="voter-id">
-                <label for="voter-id-input">Email:</label>
-                <input type="text" id="voter-id-input">
+        <div class="login-container">
+            <div class="voter-login">
+                <h2>Login as a Voter</h2>
+                <p>Please enter your details to vote.</p>
+                <form id ="voter-login-form">
+                    <div class="form-group">
+                        <label for="voter-id-input">Email:</label>
+                        <input type="email" id="voter-id-input" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="voter-pass-input">Password:</label>
+                        <input type="password" id="voter-pass-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" id="voter-login-btn">Login</button>
+                </form>
             </div>
-            <div id="voter-pass">
-                <label for="voter-pass-input">Password:</label>
-                <input type="password" id="voter-pass-input">
-            </div>
-            <button id="voter-login-btn">Login</button>
         </div>
 
         <script type="module" src="voter.js"></script>

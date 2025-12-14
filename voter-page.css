@@ -1,8 +1,52 @@
 body{
     background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
     background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0fdfa; /* Very light teal background */
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky; /* Keeps nav at top when scrolling */
+  top: 0;
+  z-index: 100;
+}
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0f766e; /* Darker teal for text */
+}
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+.btn-results {
+  text-decoration: none;
+  color: #0f766e;
+  padding: 0.5rem 1rem;
+  border: 1px solid #0f766e;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
+.btn-results:hover {
+  background-color: #0f766e;
+  color: white;
+}
+
+#sign-out-btn {
+  text-decoration: none;
+  color: #ef4444; /* Red for sign out */
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}
 /* #voting-page{
     width: 100%;
     border: 1px solid black; 
@@ -14,21 +58,41 @@ body{
     background-size: cover;
 } */
 #voting-table{
-    /*border: 1px solid black;*/
     border-collapse: collapse;
     max-width: 80%;
-    /*justify-content: center;*/
     margin:auto; 
-    background-color: azure;
+    /* background-color: white; */
+background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Clips the corners of the table */
+  overflow-x: auto; /* Allows scrolling sideways on small phones */
+  margin: 20px auto;
+  max-width: 900px;
+  /* border: 1px solid #e5e7eb; */
+    
 }
-td, th{
-    padding: 8px;
+th{
+    /* padding: 8px;
     text-align: center;
     font-size: larger;
     border: 1px solid black;
     width: 50%;
-    margin: auto;
-
+    margin: auto; */
+padding: 1rem;
+  font-weight: 600;
+  /* color: #0f766e; Dark Teal Text */
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  border: 1px solid black;
+}
+td{
+    padding: 1rem;
+  color: #374151;
+  /* border-bottom: 1px solid #f3f4f6; */
+  vertical-align: middle;
+  border: 1px solid black;
 }
 #heading{
     display:block;
@@ -41,8 +105,25 @@ td, th{
     font-style: normal;
     font-size: normal;
 }
-button{
-    background-color: rgba(0, 128, 0, 0.176);
-    border:1px solid black;
-    padding: 8px;
+.vote-btn{
+    /* background-color: rgba(0, 128, 0, 0.176); */
+    /* border:1px solid black;
+    padding: 8px; */
+    background-color: #10b9817c;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+.vote-btn:hover {
+  background-color: #059669;
+}
+#voting-table-head{
+    background-color: #f0fdfa; /* Light Teal */
+  border-bottom: 2px solid #ccfbf1;
 }
