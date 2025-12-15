@@ -71,9 +71,9 @@ onAuthStateChanged(auth, async (user) => {
     }
 })
 createBtn.addEventListener("click", function(){
-    noOfCandidates = noOfCandidatesInput.value
-    position = positionInput.value
-    if(noOfCandidates && position){
+    if(noOfCandidates && position && noRegistered == 0){
+        noOfCandidates = noOfCandidatesInput.value
+        position = positionInput.value
         noOfCandidatesInput.value = ""
         positionInput.value = ""
     }
@@ -88,6 +88,7 @@ registerBtn.addEventListener("click", function(){
 })
 function authSignOut(){
     signOut(auth).then(() => {
+        location.href = "admin.html" 
     })
     .catch((error) => {
         console.log(error.message)

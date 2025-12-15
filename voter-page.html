@@ -11,22 +11,16 @@
     </head>
     <body>
         <nav class="navbar">
-            <div class="nav-brand">Voting Platform</div>
+            <div class="nav-brand">Cast Your Vote Here 🗳️</div>
             <div class="nav-links">
                 <a href="results.html" class="btn-results">📊 View Live Results</a>
                 <button id="sign-out-btn">Sign Out</button>
             </div>
         </nav>
         <div id="voting-page">
-            <div id="heading-and-btn">
                 <div id="heading">
-                    <h2>Choose your candidate</h2>
+                    <h2 id="election-title">Choose your candidate</h2>
                 </div>
-                <!-- <div id="sign-out-btn-el">
-                    <button id="sign-out-btn">Sign out</button>
-                </div> -->
-            </div>
-            <p id="election-title"></p>
             <table id="voting-table">
                 <thead id="voting-table-head">
                     <tr>
@@ -38,7 +32,9 @@
 
                 </tbody>
             </table>
-            <p id="candidate-voted"></p>
+            <div class="voter-action">
+                <p id="voter-action"></p>
+            </div>
         </div>  
        <script type="module" src="voter-page.js"></script>
     </body>

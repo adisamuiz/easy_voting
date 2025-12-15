@@ -26,7 +26,7 @@ const auth = getAuth(app)
 
 const votingTable = document.getElementById("voting-table-body")
 const electionTitle = document.getElementById("election-title")
-const candidateVoted = document.getElementById("candidate-voted")
+const voterAction = document.getElementById("voter-action")
 const signOutBtn = document.getElementById("sign-out-btn")
 
 let tr = ""
@@ -96,7 +96,7 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
         await runTransaction(db, async (transaction) => {
             const userVoteDoc = await transaction.get(voterDocRef)
             if (userVoteDoc.exists()) {
-                throw "User has already voted!"
+                throw voterAction.textContent = "You have already voted!"
             }
             transaction.set(voterDocRef, { 
                 votedAt: new Date(),
@@ -104,8 +104,8 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
             })
             transaction.update(candidateDocRef, { votes: increment(1) })
         })
-    console.log("Vote successfully cast!")
+    voterAction.textContent = "Vote successfully cast!"
     } catch (error) {
-    console.error("Vote failed: ", error)
+    voterAction.textContent = `Vote failed: ${error}`
   }
 }

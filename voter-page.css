@@ -7,20 +7,19 @@ body{
     padding: 0;
 }
 .navbar {
-  background-color: #ffffff;
+  background-color: transparent;
   padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky; /* Keeps nav at top when scrolling */
+  position: sticky; 
   top: 0;
   z-index: 100;
 }
 .nav-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #0f766e; /* Darker teal for text */
+  color: rgba(0, 0, 0, 0.699)
 }
 .nav-links {
   display: flex;
@@ -43,60 +42,38 @@ body{
 
 #sign-out-btn {
   text-decoration: none;
-  color: #ef4444; /* Red for sign out */
+  color: #ef4444; 
   padding: 0.5rem 1rem;
   font-weight: 600;
 }
-/* #voting-page{
-    width: 100%;
-    border: 1px solid black; 
-    margin: 10px 10px;
-    margin-right: 0px;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
-    background-size: cover;
-} */
 #voting-table{
-    border-collapse: collapse;
-    max-width: 80%;
-    margin:auto; 
-    /* background-color: white; */
-background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Clips the corners of the table */
-  overflow-x: auto; /* Allows scrolling sideways on small phones */
+  border-collapse: collapse;
+  margin:auto; ;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 10px -1px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   max-width: 900px;
-  /* border: 1px solid #e5e7eb; */
-    
 }
 th{
-    /* padding: 8px;
-    text-align: center;
-    font-size: larger;
-    border: 1px solid black;
-    width: 50%;
-    margin: auto; */
-padding: 1rem;
-  font-weight: 600;
-  /* color: #0f766e; Dark Teal Text */
+  padding: 1.5rem 3rem;
+  font-weight: 650;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 1.5rem;
   letter-spacing: 0.05em;
-  border: 1px solid black;
+  border-bottom: 1px solid #374151;
 }
 td{
-    padding: 1rem;
+  padding: 0.6rem 3rem;
   color: #374151;
-  /* border-bottom: 1px solid #f3f4f6; */
+  border-bottom: 1px solid #374151;
   vertical-align: middle;
-  border: 1px solid black;
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 #heading{
     display:block;
-    margin: 10px auto;
+    margin: 50px auto;
     border: none;
     text-align: center;
     width: 100%;
@@ -106,9 +83,6 @@ td{
     font-size: normal;
 }
 .vote-btn{
-    /* background-color: rgba(0, 128, 0, 0.176); */
-    /* border:1px solid black;
-    padding: 8px; */
     background-color: #10b9817c;
     color: white;
     border: none;
@@ -123,7 +97,4 @@ td{
 .vote-btn:hover {
   background-color: #059669;
 }
-#voting-table-head{
-    background-color: #f0fdfa; /* Light Teal */
-  border-bottom: 2px solid #ccfbf1;
-}
+

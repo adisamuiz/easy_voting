@@ -58,6 +58,8 @@ async function authSignIn(){
   } 
   catch (error) {
     console.error("Something went wrong:", error)
+    voterIdInput.value = ""
+    voterPassInput.value = ""
   }
 }
 // async function getVoterInformation(uid) {
