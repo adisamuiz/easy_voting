@@ -32,7 +32,7 @@ const signOutBtn = document.getElementById("sign-out-btn")
 const registerBtn = document.getElementById("register-btn")
 const registerVoterBtn = document.getElementById("register-voter-btn")
 const createBtn = document.getElementById("create-btn")
-const positionInput = document.getElementById("position-input")
+const electionTitleInput = document.getElementById("election-title-input")
 const noOfCandidatesInput = document.getElementById("no-of-candidates-input")
 const candidateNameInput = document.getElementById("candidate-name-input")
 const resultTable = document.getElementById("result-table-body")
@@ -42,7 +42,7 @@ const voterPassInput = document.getElementById("voter-pass-input")
 
 let candidateName = ""
 let noOfCandidates = 0
-let position = ""
+let electionTitle = ""
 let trr = ""
 let tdd1 = ""
 let tdd2 = ""
@@ -73,9 +73,10 @@ onAuthStateChanged(auth, async (user) => {
 createBtn.addEventListener("click", function(){
     if(noOfCandidates && position && noRegistered == 0){
         noOfCandidates = noOfCandidatesInput.value
-        position = positionInput.value
+        electionTitle = electionTitleInput.value
         noOfCandidatesInput.value = ""
-        positionInput.value = ""
+        electionTitleInput.value = ""
+        addElectionTitleToDB(electionTitle)
     }
 }) 
 registerBtn.addEventListener("click", function(){
@@ -141,6 +142,11 @@ async function addNewVoterToDB(uid){
         role: "voter"
     })
 }
+async function addElectionTitleToDB(electionTitle) {
+    await setDoc(doc(db, "Title of Election", electionTitle), {
+        electionTitle: electionTitle
+    })
+}
 function clearAll(element){
     element.innerHTML = ""
 }
@@ -149,6 +155,7 @@ async function resetElection(){
     noOfCandidates = 0
     candidateIdInDB = 1
     noRegistered = 0
+    electionTitle = ""
     const candidatesSnapshot = await getDocs(collection(db, "candidates"))
     const votesSnapshot = await getDocs(collection(db, "voted"))
     for (const candidateDoc of candidatesSnapshot.docs) {
