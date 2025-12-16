@@ -62,6 +62,11 @@ function authSignOut(){
     })
 }
 function renderListOfCandidates(){
+    onSnapshot(collection(db, "TitleOfElection"), (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            electionTitle.textContent = doc.data().electionName
+        })
+    })
     onSnapshot(collection(db, "candidates"), (querySnapshot) => {
         clearAll(votingTable)
         querySnapshot.forEach((doc) => {
@@ -109,3 +114,4 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
     voterAction.textContent = `Vote failed: ${error}`
   }
 }
+

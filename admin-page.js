@@ -70,13 +70,17 @@ onAuthStateChanged(auth, async (user) => {
         location.href = "admin.html" 
     }
 })
-createBtn.addEventListener("click", function(){
-    if(noOfCandidates && position && noRegistered == 0){
-        noOfCandidates = noOfCandidatesInput.value
-        electionTitle = electionTitleInput.value
-        noOfCandidatesInput.value = ""
-        electionTitleInput.value = ""
-        addElectionTitleToDB(electionTitle)
+createBtn.addEventListener("click", async function(){
+    noOfCandidates = noOfCandidatesInput.value
+    electionTitle = electionTitleInput.value
+    try{
+        if(noOfCandidates && electionTitle){
+            noOfCandidatesInput.value = ""
+            electionTitleInput.value = ""
+            await addElectionTitleToDB(electionTitle)
+        }
+    } catch(error){
+        console.error("Something went wrong:", error)
     }
 }) 
 registerBtn.addEventListener("click", function(){
@@ -143,9 +147,9 @@ async function addNewVoterToDB(uid){
     })
 }
 async function addElectionTitleToDB(electionTitle) {
-    await setDoc(doc(db, "Title of Election", electionTitle), {
-        electionTitle: electionTitle
-    })
+        await setDoc(doc(db, "TitleOfElection", electionTitle), {
+            electionName: electionTitle
+        })
 }
 function clearAll(element){
     element.innerHTML = ""
