@@ -134,9 +134,9 @@ function renderListOfCandidates(){
         querySnapshot.forEach((doc) => {
             trr = resultTable.insertRow()
             tdd1 = trr.insertCell(0)
-            tdd1.innerHTML = `${doc.data().name}`
+            tdd1.textContent = `${doc.data().name}`
             tdd2 = trr.insertCell(1)
-            tdd2.innerHTML = `${doc.data().votes}`         
+            tdd2.textContent = `${doc.data().votes}`         
         })
     })
 }
