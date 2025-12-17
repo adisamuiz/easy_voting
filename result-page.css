@@ -4,7 +4,7 @@ body {
     padding: 10px 10px;
     background-color: #EBF2F7;
     color: #333;
-    padding: auto 20px;
+    padding: auto 10px;
 }
 .container{
     max-width: 500px;
@@ -20,7 +20,7 @@ body {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     position: relative; 
     height: 300px; 
-    width: 80%;
+    width: 90%;
 }
 h1{
     text-align: center;
