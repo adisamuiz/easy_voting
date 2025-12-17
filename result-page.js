@@ -76,6 +76,13 @@ function renderChart(labels, data, bgColors, borderColors){
                 stepSize: 1, 
                 precision: 0 
             },
+            animation: {
+                duration: 1000,
+                easing: 'easeOutQuart',
+                delay: (c) => {
+                return c.dataIndex * 200; 
+                }
+            },
             plugins: {
                 legend: {
                     display: true, 
@@ -123,7 +130,7 @@ function renderChart(labels, data, bgColors, borderColors){
         data: {
             labels: labels,
             datasets: [{
-                // label: 'My Dataset',
+                label: "Votes",
                 data: data
             }]
         },
@@ -132,8 +139,8 @@ function renderChart(labels, data, bgColors, borderColors){
             maintainAspectRatio: false,
             scales: { y: { beginAtZero: true } },
             ticks: {
-                stepSize: 1, // Force the step to be exactly 1 (or multiples of 1)
-                precision: 0 // Force no decimals
+                stepSize: 1, 
+                precision: 0 
             }
         }
     })
@@ -144,7 +151,6 @@ function generateColors(count) {
         const step = 360 / count; 
 
     for (let i = 0; i < count; i++) {
-        // Calculate the Hue (0 to 360)
         const hue = Math.round(i * step);
         const colorString = "hsla(" + hue + ", 70%, 60%, 0.7)";
         const borderString = "hsla(" + hue + ", 70%, 60%, 1)";
