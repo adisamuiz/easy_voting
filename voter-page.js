@@ -109,7 +109,7 @@ async function checkIfVoterAlreadyVotedAndUpdateCandidateVoteCount(candidateId, 
             })
             transaction.update(candidateDocRef, { votes: increment(1) })
         })
-    voterAction.textContent = "Vote successfully cast!"
+    voterAction.textContent = "You have successfully cast your vote!"
     } catch (error) {
     voterAction.textContent = `Vote failed: ${error}`
   }

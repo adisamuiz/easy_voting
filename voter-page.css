@@ -14,10 +14,6 @@ body{
   margin: 20px auto;
   width: 85%;
   max-width: 90%;
-  /* align-items: center; */
-  /* position: sticky;  */
-  /* top: 0;
-  z-index: 100; */
 }
 .nav-brand {
   font-size: 1.5rem;
@@ -46,7 +42,6 @@ body{
 #sign-out-btn {
   text-decoration: none;
   color: #ef4444; 
-  padding: 5px 10px;
   font-weight: 500;
   width: 100%;
   max-width: 100px;
@@ -59,7 +54,7 @@ body{
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin: 20px auto;
   justify-content: center;
-  width: 80%;            
+  width: 85%;            
   max-width: 600px;
 }
 th{
@@ -82,6 +77,9 @@ td{
 }
 #heading{
     text-align: center;
+    margin: 20px auto;
+    width: 85%;
+    max-width: 700px;
 }
 .vote-btn{
     background-color: #10b9817c;
@@ -98,5 +96,9 @@ td{
 }
 .vote-btn:hover {
   background-color: #059669;
+}
+.voter-action{
+  margin: 30px;
+  font-weight: bold;
 }
 
