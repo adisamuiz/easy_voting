@@ -10,11 +10,11 @@ body{
   background-color: transparent;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: sticky; 
-  top: 0;
-  z-index: 100;
+  justify-content: space-between;
+  /* align-items: center; */
+  /* position: sticky;  */
+  /* top: 0;
+  z-index: 100; */
 }
 .nav-brand {
   font-size: 1.5rem;
@@ -53,7 +53,7 @@ body{
   border-radius: 20px;
   box-shadow: 0 8px 10px -1px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  max-width: 700px;
+  max-width: 500px;
 }
 th{
   padding: 1.5rem 3rem;
