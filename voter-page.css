@@ -1,6 +1,7 @@
 body{
     background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
     background-size: cover;
+    background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0fdfa; /* Very light teal background */
     margin: 0;
@@ -10,7 +11,7 @@ body{
   background-color: transparent;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   /* align-items: center; */
   /* position: sticky;  */
   /* top: 0;
@@ -46,17 +47,18 @@ body{
   padding: 0.5rem 1rem;
   font-weight: 600;
 }
+
 #voting-table{
   border-collapse: collapse;
-  margin:auto; ;
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 10px -1px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  max-width: 400px;
+  justify-content: center;
+  /* max-width: 200px; */
 }
 th{
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 2rem;
   font-weight: 650;
   text-transform: uppercase;
   font-size: 1.5rem;
@@ -64,7 +66,7 @@ th{
   border-bottom: 1px solid #374151;
 }
 td{
-  padding: 0.6rem 3rem;
+  padding: 0.6rem 2rem;
   color: #374151;
   border-bottom: 1px solid #374151;
   vertical-align: middle;
@@ -72,15 +74,7 @@ td{
   font-size: 1.1rem;
 }
 #heading{
-    display:block;
-    margin: 50px auto;
-    border: none;
     text-align: center;
-    width: 100%;
-    font-family: "Acme", sans-serif;
-    font-weight: 200;
-    font-style: normal;
-    font-size: normal;
 }
 .vote-btn{
     background-color: #10b9817c;
