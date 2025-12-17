@@ -40,8 +40,6 @@ onSnapshot(collection(db, "candidates"), async (querySnapshot) => {
            data.push(candidateVotes)     
         })
         renderChart(labels, data)
-        // renderDoughnutChart(labels, data)
-        // renderLineChart(labels, data) 
     })
     
 function renderChart(labels, data){
@@ -76,27 +74,3 @@ function renderChart(labels, data){
         }
     })
 }
-// function renderDoughnutChart(labels, data){
-//     new Chart(ctxDoughnut, {
-//         type: 'doughnut',
-//         data: {
-//             labels: labels,
-//             datasets: [{
-//                 label: 'My Dataset',
-//                 data: data
-//             }]
-//         }
-//     })
-// }
-// function renderLineChart(labels, data){
-//     new Chart(ctxLine, {
-//         type: 'line',
-//         data: {
-//             labels: labels,
-//             datasets: [{
-//                 label: 'My Dataset',
-//                 data: data
-//             }]
-//         }
-//     })
-// }

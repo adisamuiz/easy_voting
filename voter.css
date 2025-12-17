@@ -69,3 +69,16 @@ body{
   width: 100%;
   transition: background-color 0.2s, box-shadow 0.2s;
 }
+#voter-login-with-google-btn{
+  background-color: #2563eb;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
+}

@@ -2,7 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebas
 import { getAuth,
          signInWithEmailAndPassword,
          signOut,
-         onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
+         onAuthStateChanged,
+         GoogleAuthProvider,
+         signInWithPopup} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js"
 import { getFirestore, 
          collection, 
          addDoc, 
@@ -21,14 +23,18 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
-const db = getFirestore(app) 
+const db = getFirestore(app)
+const provider = new GoogleAuthProvider()
 
 const voterLoginBtn = document.getElementById("voter-login-btn")
+const voterLoginWithGoogleBtn = document.getElementById("voter-login-with-google-btn")
 const voterIdInput = document.getElementById("voter-id-input")
 const voterPassInput = document.getElementById("voter-pass-input")
 const voterLoginForm = document.getElementById("voter-login-form")
 
+
 voterLoginBtn.addEventListener("click", authSignIn)
+voterLoginWithGoogleBtn.addEventListener("click", authSignInWithGoogle)
 voterLoginForm.addEventListener("submit", async function(event) {
     event.preventDefault()
 })
@@ -61,6 +67,23 @@ async function authSignIn(){
     voterIdInput.value = ""
     voterPassInput.value = ""
   }
+}
+async function authSignInWithGoogle(){
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const user = result.user
+    await addNewVoterToDB(user.uid)
+    console.log("User signed in:", user.email)
+  } 
+  catch (error) {
+    console.error("Something went wrong:", error)
+  }
+}
+async function addNewVoterToDB(uid){
+    await setDoc(doc(db, "voters", uid), {
+        voterId: uid,
+        role: "voter"
+    })
 }
 // async function getVoterInformation(uid) {
 //   const docRef = doc(db, "voters", uid)
