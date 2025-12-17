@@ -11,7 +11,8 @@ body{
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
-  margin: auto;
+  margin: 10px auto;
+  width: 80%;
   /* align-items: center; */
   /* position: sticky;  */
   /* top: 0;
@@ -20,7 +21,7 @@ body{
 .nav-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.699)
+  color: rgba(0, 0, 0, 0.699);
 }
 .nav-links {
   display: flex;
@@ -52,10 +53,11 @@ body{
   border-collapse: collapse;
   background: white;
   border-radius: 20px;
-  box-shadow: 0 8px 10px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin: 20px auto;
   justify-content: center;
-  max-width: 700px; 
+  width: 80%;            
+  max-width: 800px;
 }
 th{
   padding: 1.5rem 2rem;
@@ -86,7 +88,7 @@ td{
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    width: 100%;
+    width: 80%;
     transition: background-color 0.2s;
 }
 .vote-btn:hover {
