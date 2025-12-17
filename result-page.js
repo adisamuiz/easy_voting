@@ -28,7 +28,9 @@ const ctxBar = document.getElementById("result-bar-chart")
 const ctxDoughnut = document.getElementById("result-doughnut-chart")
 const ctxLine = document.getElementById("result-line-chart")
 
-
+let barChart = null;
+let doughnutChart = null;
+let lineChart = null;
 
 onSnapshot(collection(db, "candidates"), async (querySnapshot) => {
     let labels = []
@@ -39,38 +41,116 @@ onSnapshot(collection(db, "candidates"), async (querySnapshot) => {
            labels.push(candidateName)
            data.push(candidateVotes)     
         })
-        renderChart(labels, data)
+        const { bgColors, borderColors } = generateColors(data.length)
+        renderChart(labels, data, bgColors, borderColors)
     })
     
-function renderChart(labels, data){
-    new Chart(ctxBar, {
+function renderChart(labels, data, bgColors, borderColors){
+    if (barChart) barChart.destroy();
+    if (doughnutChart) doughnutChart.destroy();
+    if (lineChart) lineChart.destroy();
+
+    barChart = new Chart(ctxBar, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: 'My Dataset',
-                data: data
+                // label: 'My Dataset',
+                data: data,
+                backgroundColor: bgColors,
+                borderColor: borderColors,
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: { 
+                y: {
+                    beginAtZero: true,
+                    grid: { display: true }
+                 },
+                x: { grid: { display: false } },
+            },
+            responsive: true, 
+            maintainAspectRatio: false,
+            ticks: {
+                stepSize: 1, 
+                precision: 0 
+            },
+            plugins: {
+                legend: {
+                    display: true, 
+                    labels: {
+                        generateLabels: function(chart) {
+                            const data = chart.data
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, i) => {
+                                    const ds = data.datasets[0]
+                                    return {
+                                        text: `${label}: ${ds.data[i]}`, 
+                                        fillStyle: ds.backgroundColor[i], 
+                                        strokeStyle: ds.borderColor[i],   
+                                        lineWidth: 1,
+                                        hidden: false,
+                                        index: i
+                                    };
+                                });
+                            }
+                            return []
+                        }
+                    }
+                }
+            }
         }
     })
-    new Chart(ctxDoughnut, {
+    doughnutChart = new Chart(ctxDoughnut, {
         type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
-                label: 'My Dataset',
-                data: data
+                // label: 'My Dataset',
+                data: data,
+                borderColor: borderColors,
+                backgroundColor: bgColors
             }]
+        },
+        options: {
+            responsive: true, 
+            maintainAspectRatio: false,
         }
     })
-    new Chart(ctxLine, {
+    lineChart = new Chart(ctxLine, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
-                label: 'My Dataset',
+                // label: 'My Dataset',
                 data: data
             }]
+        },
+        options: {
+            responsive: true, 
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true } },
+            ticks: {
+                stepSize: 1, // Force the step to be exactly 1 (or multiples of 1)
+                precision: 0 // Force no decimals
+            }
         }
     })
+}
+function generateColors(count) {
+    const bgColors = [];
+    const borderColors = [];
+        const step = 360 / count; 
+
+    for (let i = 0; i < count; i++) {
+        // Calculate the Hue (0 to 360)
+        const hue = Math.round(i * step);
+        const colorString = "hsla(" + hue + ", 70%, 60%, 0.7)";
+        const borderString = "hsla(" + hue + ", 70%, 60%, 1)";
+        bgColors.push(colorString);
+        borderColors.push(borderString);
+    }
+
+    return { bgColors, borderColors };
 }

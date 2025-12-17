@@ -147,9 +147,13 @@ async function addNewVoterToDB(uid){
     })
 }
 async function addElectionTitleToDB(electionTitle) {
-        await setDoc(doc(db, "TitleOfElection", electionTitle), {
-            electionName: electionTitle
-        })
+    const titleSnapshot = await getDocs(collection(db, "TitleOfElection"))
+    for (const titleDoc of titleSnapshot.docs) {
+        await deleteDoc(titleDoc.ref)
+    }
+    await setDoc(doc(db, "TitleOfElection", electionTitle), {
+        electionName: electionTitle
+    })
 }
 function clearAll(element){
     element.innerHTML = ""

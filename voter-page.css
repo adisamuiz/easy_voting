@@ -1,17 +1,17 @@
 body{
     background-image: url("Voting\ Election\ Day\ GIF\ by\ Lo\ Harris.gif");
     background-size: cover;
-    background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0fdfa; /* Very light teal background */
     margin: 0;
-    padding: 10px;
+    padding: auto 20px;
 }
 .navbar {
   background-color: transparent;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  margin: auto;
   /* align-items: center; */
   /* position: sticky;  */
   /* top: 0;
@@ -55,7 +55,7 @@ body{
   box-shadow: 0 8px 10px -1px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   justify-content: center;
-  /* max-width: 200px; */
+  max-width: 700px; 
 }
 th{
   padding: 1.5rem 2rem;
@@ -75,6 +75,7 @@ td{
 }
 #heading{
     text-align: center;
+    
 }
 .vote-btn{
     background-color: #10b9817c;
