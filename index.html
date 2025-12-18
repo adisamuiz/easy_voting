@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Easy Voting - Home</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="index.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Acme&family=BBH+Sans+Bogle&family=Bebas+Neue&family=Bungee&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Slab:wght@100..900&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=Story+Script&display=swap" rel="stylesheet">    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Acme&family=BBH+Sans+Bogle&family=Bebas+Neue&family=Bungee&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Slab:wght@100..900&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=Story+Script&display=swap" rel="stylesheet">    
+    </head>
     <body>
         <div class="container">
             <img src="easy-voting-logo.jpg" alt="Platform Logo" class="brand-logo">
             <header>
-                <h1>Organize Secure and Transparent Elections</h1>
+                <h1>Organize and Participate in Secure and Transparent Elections</h1>
             </header>
             <div id="text-body">
-                <h3>Welcome to Easy Voting. </h3>
+                <h3>Welcome to Easy Voting </h3>
                 <p>
-                    Our platform allows election organizers to create and manage elections with ease, while allowing voters to participate securely and transparently in elections.<br>
-                    We offer a user-friendly interface, robust security measures, and real-time results tracking to ensure a smooth election experience for all parties involved.
-                </p>
-                <p>
-                    🗳️ Select <strong>Vote</strong> to login as a voter.<br>
-                    ⚙️ Select <strong>Create election</strong> to start a new election
+                    Our platform allows election organizers to manage elections with ease, while ensuring voters can participate securely and transparently.                
                 </p>
             </div>
+            <div class="features-grid">
+                    <div class="feature-item">User Friendly Interface</div>
+                    <div class="feature-item">Secure Elections</div>
+                    <div class="feature-item">Real-time Results</div>
+            </div>
             <div id="sign-in">
-                <button id="voter-btn">Vote</button>
-                <button id="admin-btn">Create election</button>
+                <div class="voter">
+                    <button id="voter-btn">🗳️ Login to Vote</button>
+                </div>
+                <div class="admin">
+                    <button id="admin-btn">⚙️ Create Election</button>
+                </div>
             </div>
         </div>
 
