@@ -37,7 +37,7 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     const docRef = doc(db, "admin", user.uid)
     const docSnap = await getDoc(docRef)
-    if (docSnap.exists() && docSnap.data().role === "admin") {
+    if (await docSnap.exists() && await docSnap.data().role === "admin") {
         location.href = "admin-page.html"
     }
   } 
@@ -66,7 +66,7 @@ async function authSignIn(){
     try{
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const uid = userCredential.user.uid    
-        await getAdminInformation(uid)
+        // await getAdminInformation(uid)
         adminIdInput.value = ""
         adminPassInput.value = ""
     }
@@ -81,15 +81,15 @@ async function authSignIn(){
 //     })
 //     console.log("Document written with ID: ", uid)
 // }
-async function getAdminInformation(uid) {
-    const docRef = doc(db, "admin", uid)
-    const docSnap = await getDoc(docRef)
-    if (docSnap.exists() && docSnap.data().role === "admin") {
-        console.log("you're an admin")
-        location.href = "admin-page.html"
-    } else {
-        console.log("You're not an admin")
-        signOut(auth)
-    }
-}
+// async function getAdminInformation(uid) {
+//     const docRef = doc(db, "admin", uid)
+//     const docSnap = await getDoc(docRef)
+//     if (docSnap.exists() && docSnap.data().role === "admin") {
+//         console.log("you're an admin")
+//         location.href = "admin-page.html"
+//     } else {
+//         console.log("You're not an admin")
+//         signOut(auth)
+//     }
+// }
 
