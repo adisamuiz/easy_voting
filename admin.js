@@ -34,15 +34,34 @@ const adminPassInput = document.getElementById("admin-pass-input")
 adminLoginBtn.addEventListener("click", authSignIn)
 
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const docRef = doc(db, "admin", user.uid)
-    const docSnap = await getDoc(docRef)
-    if (await docSnap.exists() && await docSnap.data().role === "admin") {
-        location.href = "admin-page.html"
+    if (user) {
+        const docRef = doc(db, "admin", user.uid)
+        try {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data()
+                if (data.role === "admin") {
+                    console.log("Admin verified. Redirecting...")
+                    location.href = "admin-page.html"
+                } 
+                else {
+                    console.error("Access denied: User is not an admin.")
+                    alert("Access denied: You are not an admin.")
+                    await signOut(auth)
+                }
+            } 
+            else {
+                console.error("No admin record found in Firestore for this user.")
+                alert("No admin profile found.")
+            }
+        } 
+        catch (error) {
+            console.error("Error fetching admin data:", error)
+        }
     }
-  } 
-  else {
-  }
+    else {
+        console.log("No user is signed in")
+    }
 })
 // async function authCreateAccount(){
 //     const email = adminIdInput.value
