@@ -35,21 +35,27 @@ let lineChart = null;
 onSnapshot(collection(db, "candidates"), async (querySnapshot) => {
     let labels = []
     let data = []
-        await querySnapshot.forEach((doc) => {
-           const candidateName = doc.data().name
-           const candidateVotes = doc.data().votes
-           labels.push(candidateName)
-           data.push(candidateVotes)     
-        })
-        const { bgColors, borderColors } = generateColors(data.length)
-        renderChart(labels, data, bgColors, borderColors)
+    await querySnapshot.forEach((doc) => {
+        const candidateName = doc.data().name
+        const candidateVotes = doc.data().votes
+        labels.push(candidateName)
+        data.push(candidateVotes)     
     })
+    const { bgColors, borderColors } = generateColors(data.length)
     
-function renderChart(labels, data, bgColors, borderColors){
-    if (barChart) barChart.destroy();
-    if (doughnutChart) doughnutChart.destroy();
-    if (lineChart) lineChart.destroy();
+    if (barChart === null) {
+        initChart(labels, data, bgColors, borderColors)
+    } 
+    else {
+        updateChart(labels, data, bgColors, borderColors)
+    }
+}, 
+    (error) => {
+        console.error("Error fetching updates:", error);
+    })
 
+    
+function initChart(labels, data, bgColors, borderColors){
     barChart = new Chart(ctxBar, {
         type: 'bar',
         data: {
@@ -144,6 +150,22 @@ function renderChart(labels, data, bgColors, borderColors){
             }
         }
     })
+}
+function updateChart(labels, data, bgColors, borderColors) {
+    barChart.data.labels = labels
+    barChart.data.datasets[0].data = data
+    barChart.data.datasets[0].backgroundColor = bgColors
+    barChart.data.datasets[0].borderColor = borderColors
+    barChart.update()
+
+    doughnutChart.data.labels = labels
+    doughnutChart.data.datasets[0].data = data
+    doughnutChart.data.datasets[0].backgroundColor = bgColors
+    doughnutChart.update()
+
+    lineChart.data.labels = labels
+    lineChart.data.datasets[0].data = data
+    lineChart.update()
 }
 function generateColors(count) {
     const bgColors = [];
